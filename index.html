@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>ACyDS - SDLC on IaC</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.0.4/reveal.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.0.4/theme/serif.css" id="theme"/>
+    <style>
+        .reveal{
+            background: no-repeat center/70% url(images/uclm-back10.png);
+        }
+    </style>
+    <script>
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = window.location.search.match( /print-pdf/gi ) ?  'pdf.css' : 'css/print/paper.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+  </head>
+
+  <body>
+    <div class="reveal">
+      <div class="slides">
+          <section>
+            <h1>SDLC on IaC</h1>
+            <h2>MCSI 2023-2024</h2>
+        </section>
+
+        <section>
+            <h2>About me</h2>
+            <ul>
+                <li>Miguel Ángel García</li>
+                <li><a href="https://magmax.org">https://magmax.org</a><br/></li>
+                <li><a href="https://twitter.com/magmax9">@magmax9</a></li>
+                <li>miguelangel.garcia AT gmail DOT com</li>
+                <li>Senior Security Engineer at <a href="https://splashthat.com">Splashthat</a></li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Software Development Life Cycle on Infrastructure As Code</h2>
+        </section>
+
+        <section>
+            <h2>SDLC on IaC</h2>
+            <h3>Differences</h3>
+            <ul>
+                <li class="fragment">Tests are really slow (minutes)</li>
+                <li class="fragment">Tests burn money</li>
+                <li class="fragment">Sometimes, there is no rollback</li>
+            </ul>
+        </section>
+
+
+
+        <section data-background="images/questions.jpg">
+            <div class="textdiv">
+                <h2>Questions?</h2>
+            </div>
+        </section>
+
+        <section data-background="images/thankyou.jpg">
+        </section>
+
+        <section>
+            <h2>Contact</h2>
+            <ul>
+                <li>miguelangel.garcia AT gmail DOT com</li>
+                <li><a href="https://magmax.org/uclm-mcsi-2023-2024">https://magmax.org/uclm-mcsi-2023-2024</a></li>
+                <li><a href="https://github.com/magmax/uclm-mcsi-2023-2024">https://github.com/magmax/uclm-mcsi-2023-2024</a></li>
+
+            </ul>
+        </section>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.0.4/reveal.min.js"></script>
+    <script type="text/javascript">
+      Reveal.initialize({
+        history: true,
+        progress: true,
+        pdfSeparateFragments: false,
+        dependencies: [
+            { src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.0.4/plugin/highlight/highlight.min.js', async: true },
+        ],
+        showSlideNumber: 'print',
+      });
+    </script>
+
+  </body>
+</html>
+
+<!-- NOTAS
+- Branches: gestión de distintas ramas
+- git-flow, flujo para releases y para hotfixes.
+-->
