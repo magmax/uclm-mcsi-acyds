@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>ACyDS - SDLC on IaC</title>
+    <title>UCLM: SDLC on IaC.</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.0.4/reveal.min.css"/>
@@ -9,6 +9,12 @@
     <style>
         .reveal{
             background: no-repeat center/70% url(images/uclm-back10.png);
+        }
+        .container{
+            display: flex;
+        }
+        .col{
+            flex: 1;
         }
     </style>
     <script>
@@ -30,6 +36,10 @@
         </section>
 
         <section>
+            <h2>Software Development Life Cycle<br/>on<br/>Infrastructure As Code</h2>
+        </section>
+
+        <section>
             <h2>About me</h2>
             <ul>
                 <li>Miguel Ángel García</li>
@@ -41,18 +51,253 @@
         </section>
 
         <section>
-            <h2>Software Development Life Cycle on Infrastructure As Code</h2>
+            <img src="images/stop.jpg" alt="Stop!"/>
         </section>
 
         <section>
-            <h2>SDLC on IaC</h2>
-            <h3>Differences</h3>
+            <h2>What does IaC means?</h2>
             <ul>
-                <li class="fragment">Tests are really slow (minutes)</li>
-                <li class="fragment">Tests burn money</li>
-                <li class="fragment">Sometimes, there is no rollback</li>
+                <li class="fragment">Define the Infrastructure as text.</li>
+                <li class="fragment">Appears thanks to Cloud and quick resource management.</li>
+                <li class="fragment">Mentality change: Servers are not puppets any more.</li>
             </ul>
         </section>
+
+        <section>
+            <h2>Advantages</h2>
+            <p>Almost every advantage has Security implications!</p>
+            <div class="container">
+                <div class="col">
+                    <img src="images/cia.jpg" alt="CIA triade"/>
+                </div>
+                <div class="col">
+                    <ul>
+                        <li>C - Confidenciality</li>
+                        <li>I - Integrity</li>
+                        <li>A - Availability</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section data-background-image="images/git.png" data-background-opacity="0.4">
+            <h2>Advantages</h2>
+            <h3 class="fragment">Can be version-controlled</h3>
+            <ul>
+                <li class="fragment">History of changes (CI)</li>
+                <li class="fragment">Increases visibility. (-)</li>
+                <li class="fragment">Changes are signed (who, when, why).(CI)</li>
+                <li class="fragment">Changes are approved (who, when).(CI)</li>
+                <li class="fragment">Reduces niches and democratizes infrastructure:<br/>Allows collaboration with other teams. (A)</li>
+                <li class="fragment">Shared knowledge. (A)</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Advantages</h2>
+            <h3>Reduces Bus/Truck Factor/Number</h3>
+            <div class="container fragment">
+                <div class="col">
+                    <img src="images/truck.jpg" alt="Truck"/>
+                </div>
+                <div class="col">
+                    <ul>
+                        <li>Reduces Risk (A)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+
+        <section>
+            <h2>Advantages</h2>
+            <div class="fragment">
+                <h3>Allows to create life cycles</h3>
+                <div class="container">
+                    <div class="col">
+                        <a href="https://devsecops.pagerduty.com/secure_sdlc/" target="_blank">
+                            <img src="images/pagerduty-sdlc.png" alt="SDLC"/>
+                            PagerDuty SDLC
+                        </a>
+                    </div>
+                    <div class="col">
+                        <ul>
+                            <li class="fragment">allows to use linters. (-)</li>
+                            <li class="fragment">code can be tested*. (A)</li>
+                            <li class="fragment">code can be reviewed. (CIA)</li>
+                            <li class="fragment">code can be reused. (-)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Advantages</h2>
+            <h3 class="fragment">Can be parameterized</h3>
+            <ul>
+                <li class="fragment">Addapted to different environments. (-)</li>
+                <li class="fragment">Secrets* (C)</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Advantages</h2>
+            <div class="fragment">
+            <h3>Can be measured</h3>
+            <img src="images/meter.jpg" alt=""/>
+            <ul>
+                <li class="fragment">Cost estimation. (-)</li>
+                <li class="fragment">Ease recicling. (-)</li>
+                <li class="fragment">Ease scheduling. (-)</li>
+            </ul>
+            </div>
+        </section>
+
+        <section>
+            <h2>Differences with other SDLCs</h2>
+            <div class="container">
+                <div class="col">
+                    <img src="images/difference.jpg" alt=""/>
+                </div>
+                <div class="col">
+                    <ul>
+                        <li class="fragment">Tests are really slow (minutes/hours)</li>
+                        <li class="fragment">Tests burn money</li>
+                        <li class="fragment">Sometimes, there is no rollback</li>
+                        <li class="fragment">Architecture naming defers on providers</li>
+                        <li class="fragment">Hidden requirements</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Solutions</h2>
+            <div class="container">
+                <div class="col">
+                    <img src="images/solution.jpg" alt=""/>
+                </div>
+                <div class="col">
+                    <ul>
+                        <li class="fragment">Code reviews</li>
+                        <li class="fragment">Continuous checks</li>
+                        <li class="fragment">Monitoring, Alerting and Auto-fix.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Kinds of Infrastructures</h2>
+            <ul>
+                <li class="fragment">On Premise</li>
+                <li class="fragment">Cloud</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Kind of IaC</h2>
+            <div class="col">
+                <ul>
+                    <li class="fragment">Declarative</li>
+                    <li class="fragment">Imperative</li>
+                </ul>
+            </div>
+        </section>
+
+        <section>
+            <h2>Technologies</h2>
+            <ul>
+                <li class="fragment">Define Infrastructure</li>
+                <li class="fragment">Define Deployment</li>
+                <li class="fragment">Mix-bag</li>
+                <li class="fragment">Hard to debug and maintain</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Technologies</h2>
+            <h3>Scripting</h3>
+            <img src="images/salt.chef.ansible.puppet.png" alt="" width="30%"/>
+            <table style="font-size:smaller">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Chef</th>
+                        <th>Puppet</th>
+                        <th>Ansible</th>
+                        <th>SaltStack</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="fragment">
+                        <th>Type</th>
+                        <td>Imperative</td>
+                        <td>Declarative</td>
+                        <td>Imperative</td>
+                        <td>Hybrid</td>
+                    </tr>
+                    <tr class="fragment">
+                        <th>Lang</th>
+                        <td>Ruby</td>
+                        <td>Puppet</td>
+                        <td>Yaml+Python</td>
+                        <td>Yaml+Python</td>
+                    </tr>
+                    <tr class="fragment">
+                        <th>Name</th>
+                        <td>Recipe</td>
+                        <td>Manifests</td>
+                        <td>Playbooks</td>
+                        <td>Module</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section>
+            <h2>Technologies</h2>
+            <h3>Domain Specific Languages (DSLs)</h3>
+            <img src="images/aws.azure.google.png" alt="" width="50%"/>
+            <dl>
+                <div class="fragment">
+                    <dt>AWS</dt>
+                    <dd>Cloud Formation</dd>
+                </div>
+                <div class="fragment">
+                    <dt>Azure</dt>
+                    <dd>Bicep</dd>
+                </div>
+                <div class="fragment">
+                    <dt>Google Cloud</dt>
+                    <dd></dd>
+                </div>
+            </dl>
+        </section>
+
+        <section>
+            <h2>Technologies</h2>
+            <h3>Multi-platform Languages</h3>
+            <img src="images/pulumi.terraform.png" alt="" width="30%"/>
+            <table style="font-size: smaller">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Terraform/OpenTofu</th>
+                        <th>Pulumi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>Language</th>
+                        <td>HCL/Yaml</td>
+                        <td>Python/Typescript/JS/C#/F#/Java/Yaml</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
 
 
 
