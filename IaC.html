@@ -298,8 +298,79 @@
             </table>
         </section>
 
+        <section>
+            <h1>IaC per stage</h1>
+            <img src="images/pagerduty-sdlc.png" alt="SDLC"/>
+        </section>
 
+        <section>
+            <h2>Most usual protections</h2>
+            <ul>
+                <li class="fragment">Linters</li>
+                <li class="fragment">Code reviews</li>
+                <li class="fragment">Codeowners</li>
+                <li class="fragment">Per system protections. Example: "deletion protection" on a database</li>
+                <li class="fragment">Access control</li>
+            </ul>
+        </section>
 
+        <section>
+            <h1>Secrets</h1>
+            <h2>Types</h2>
+            <ul>
+                <li class="fragment">Access control: Access keys, Db credentials, encryption keys, ...</li>
+                <li class="fragment">Third party access: API keys, tokens, ...</li>
+                <li class="fragment">Access control over the CI (terraform providers, ...)</li>
+            </ul>
+        </section>
+
+        <section>
+            <h1>Secrets</h1>
+            <h2>Solutions</h2>
+            <ul>
+                <li class="fragment">Encrypted files (keybase). How to securize the decryption key?</li>
+                <li class="fragment">Key store (Hashicorp Vault). How to securize the service access?</li>
+                <li class="fragment">Per service access.</li>
+                <li class="fragment">Customized solutions, depending on the CI deployment</li>
+                <li class="fragment">For users: temporary approved access.</li>
+            </ul>
+        </section>
+
+        <section>
+           <h1>Continuous Integration platforms</h1>
+           <ul>
+               <li class="fragment"><a href="https://www.jenkins.io/" target="_blank">Jenkins</a></li>
+               <li class="fragment"><a href="https://www.runatlantis.io/" target="_blank">Atlantis</a></li>
+               <li class="fragment"><a href="https://developer.hashicorp.com/terraform/cloud-docs" target="_blank">HCP Terraform</a></li>
+               <li class="fragment"><a href="https://www.pulumi.com" target="_blank">Pulumi</a></li>
+           </ul>
+        </section>
+
+        <section>
+            <h2>Exercise</h2>
+            <ul>
+                <li>Terraform to create a user <a href="https://gist.github.com/magmax/c8915d28e9fd002f580f45da77af3386">https://gist.github.com/magmax/c8915d28e9fd002f580f45da77af3386</a></li>
+                <li>Terraform to create a host <a href="https://gist.github.com/magmax/5107e463a0b4b812f2b6732c519c26e7">https://gist.github.com/magmax/5107e463a0b4b812f2b6732c519c26e7</a></li>
+                <li>Describe the security measures to be set to handle a CI/CD for the previous two projects</li>
+                <li>1-2 pages should be enough to get the highest score.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Terraform instructions</h2>
+            <ul>
+                <li><a
+                        href="https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli#install-terraform"
+                        target="_blank">Official doc</a></li>
+                <li><pre>chmod 644 /usr/share/keyrings/hashicorp-archive-keyring.gpg</pre></li>
+                    <li><pre>
+terraform init
+terraform plan
+terraform apply
+terraform deploy
+</pre></li>
+            </ul>
+        </section>
 
         <section data-background="images/questions.jpg">
             <div class="textdiv">
@@ -337,6 +408,7 @@
 
   </body>
 </html>
+<!-- vim: tw=0 -->
 
 <!-- NOTAS
 - Branches: gestión de distintas ramas
