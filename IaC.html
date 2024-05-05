@@ -21,7 +21,7 @@
         var link = document.createElement( 'link' );
         link.rel = 'stylesheet';
         link.type = 'text/css';
-        link.href = window.location.search.match( /pdf/gi ) ?  'pdf.css' : 'css/print/paper.css';
+        link.href = window.location.search.match( /print-pdf/gi ) ?  'pdf.css' : 'css/print/paper.css';
         document.getElementsByTagName( 'head' )[0].appendChild( link );
     </script>
 
@@ -31,8 +31,17 @@
     <div class="reveal">
       <div class="slides">
           <section>
-            <h1>SDLC on IaC</h1>
-            <h2>MCSI 2023-2024</h2>
+            <div class="container">
+                <div class="col">
+                    <img src="images/uclm-back.png" alt="CIA triade"/>
+                    <p>Castilla-La Mancha University</p>
+                    <p>UCLM</p>
+                </div>
+                <div class="col">
+                    <h1>SDLC on IaC</h1>
+                    <h2>MCSI 2023-2024</h2>
+                </div>
+            </div>
         </section>
 
         <section>
@@ -47,6 +56,16 @@
                 <li><a href="https://twitter.com/magmax9">@magmax9</a></li>
                 <li>miguelangel.garcia AT gmail DOT com</li>
                 <li>Senior Security Engineer at <a href="https://splashthat.com">Splashthat</a></li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>About this presentation</h2>
+            <ul>
+                <li>Available at https://magmax.org/uclm-mcsi-acyds-2023-2024/IaC.html#/</li>
+                <li>Printable version: https://magmax.org/uclm-mcsi-acyds-2023-2024/IaC.html?print-pdf#/</li>
+                <li>LICENSE: <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA</a></li>
+                <li>Pull-requests are welcome at https://github.com/magmax/uclm-mcsi-acyds-2023-2024/</li>
             </ul>
         </section>
 
@@ -337,7 +356,7 @@
         </section>
 
         <section>
-           <h1>Continuous Integration platforms</h1>
+           <h1>CI platforms</h1>
            <ul>
                <li class="fragment"><a href="https://www.jenkins.io/" target="_blank">Jenkins</a></li>
                <li class="fragment"><a href="https://www.runatlantis.io/" target="_blank">Atlantis</a></li>
@@ -409,8 +428,3 @@ terraform deploy
   </body>
 </html>
 <!-- vim: tw=0 -->
-
-<!-- NOTAS
-- Branches: gestión de distintas ramas
-- git-flow, flujo para releases y para hotfixes.
--->

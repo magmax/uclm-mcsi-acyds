@@ -1,0 +1,30 @@
+@startuml
+!theme cerulean
+actor User as user
+package Kubernetes {
+  interface Ingress
+  agent Service
+  package deploy as "WEB Deployment" {
+    package ignoreme as "ReplicaSet 1" {
+      agent POD as "Deleted Pod" #fff
+    }
+    package replicaset as "ReplicaSet 2" {
+      agent POD as pod
+    }
+  }
+  package statefulset as "DB Statefulset" {
+    agent POD as db
+  }
+  package daemon as "Monitor Daemonset" {
+    agent POD as monitor
+  }
+}
+
+user -> Ingress
+Ingress -> Service
+Service --> pod
+pod --> db
+
+db <. monitor
+pod <. monitor
+@enduml

@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>UCLM: Kubernetes Crash Course.</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.0.4/reveal.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.0.4/theme/serif.css" id="theme"/>
+    <style>
+        .reveal{
+            background: no-repeat center/70% url(images/uclm-back10.png);
+        }
+        .container{
+            display: flex;
+        }
+        .col{
+            flex: 1;
+        }
+    </style>
+    <script>
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = window.location.search.match( /print-pdf/gi ) ?  'pdf.css' : 'css/print/paper.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+  </head>
+
+  <body>
+    <div class="reveal">
+      <div class="slides">
+          <section>
+            <div class="container">
+                <div class="col">
+                    <img src="images/uclm-back.png" alt="CIA triade"/>
+                    <p>Castilla-La Mancha University</p>
+                    <p>UCLM</p>
+                </div>
+                <div class="col">
+                    <h1>Kubernetes Crash Course</h1>
+                    <h2>MCSI 2023-2024</h2>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>About me</h2>
+            <ul>
+                <li>Miguel Ángel García</li>
+                <li><a href="https://magmax.org">https://magmax.org</a><br/></li>
+                <li><a href="https://twitter.com/magmax9">@magmax9</a></li>
+                <li>miguelangel.garcia AT gmail DOT com</li>
+                <li>Senior Security Engineer at <a href="https://splashthat.com">Splashthat</a></li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>About this presentation</h2>
+            <ul>
+                <li>Available at https://magmax.org/uclm-mcsi-acyds-2023-2024/K8s.html#/</li>
+                <li>Printable version: https://magmax.org/uclm-mcsi-acyds-2023-2024/K8s.html?print-pdf#/</li>
+                <li>LICENSE: <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA</a></li>
+                <li>Pull-requests are welcome at https://github.com/magmax/uclm-mcsi-acyds-2023-2024/</li>
+            </ul>
+        </section>
+
+
+        <section>
+            <h2>What is Kubernetes (K8s) about?</h2>
+            <ul>
+                <li class="fragment">Deployments</li>
+                <li class="fragment">Distributed</li>
+                <li class="fragment">Availability</li>
+                <li class="fragment">Repeteability</li>
+                <li class="fragment">Extensibility</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Based on Resources</h2>
+            <ul>
+                <li class="fragment">Everything is a resource</li>
+                <li class="fragment">Every resource can be mapped to YAML or JSON</li>
+                <li class="fragment">It is possible to create new resource types.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Base computing resource: POD</h2>
+            <ul>
+                <li class="fragment">A POD can contain one or more containers.</li>
+                <li class="fragment">A POD can expose ports to the kubernetes network</li>
+                <li class="fragment">A POD is not accessible outside of kubernetes network by itself</li>
+                <li class="fragment">A POD name contains a random part</li>
+                <li class="fragment">A POD has a random IP Address</li>
+            </ul>
+        </section>
+
+        <section data-transition="slide-in fade-out">
+            <h2>Base case: a web server</h2>
+            <img src="diagrams/kubernetes.svg" alt=""></img>
+        </section>
+
+        <section data-transition="fade">
+            <h3>Resources: Ingress</h3>
+            <div class="container">
+                <div class="col">
+                    <img src="diagrams/kubernetes.svg" alt=""></img>
+                </div>
+                <div class="col">
+                    <ul>
+                        <li class="fragment">Allows to expose something outside Kubernetes</li>
+                        <li class="fragment">Is managed by the Ingress controller, such as nginx, traefic, envoy, ...</li>
+                        <li class="fragment">The ingress controller is a POD as well (not in the diagram)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section data-transition="fade">
+            <h3>Resources: Service</h3>
+            <div class="container">
+                <div class="col">
+                    <img src="diagrams/kubernetes.svg" alt=""></img>
+                </div>
+                <div class="col">
+                    <ul>
+                        <li class="fragment">Is <b>not</b> a POD.</li>
+                        <li class="fragment">Allows to give a fixed name to a POD and has a fixed IP.</li>
+                        <li class="fragment">Uses RoundRobin to reach each related POD (named "endpoint").</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section data-transition="fade">
+            <h3>Resources: Deployment</h3>
+            <div class="container">
+                <div class="col">
+                    <img src="diagrams/kubernetes.svg" alt=""></img>
+                </div>
+                <div class="col">
+                    <ul>
+                        <li class="fragment">Is <b>not</b> a POD</li>
+                        <li class="fragment">Manages ReplicaSets</li>
+                        <li class="fragment">Allows Rollbacks</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section data-transition="fade">
+            <h3>Resources: ReplicaSets</h3>
+            <div class="container">
+                <div class="col">
+                    <img src="diagrams/kubernetes.svg" alt=""></img>
+                </div>
+                <div class="col">
+                    <ul>
+                        <li class="fragment">Is <b>not</b> a POD </li>
+                        <li class="fragment">Allows Rollbacks</li>
+                        <li class="fragment">Ensures the required number of PODs are <i>ready</i></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section data-transition="fade">
+            <h3>Resources: StatefulSets</h3>
+            <div class="container">
+                <div class="col">
+                    <img src="diagrams/kubernetes.svg" alt=""></img>
+                </div>
+                <div class="col">
+                    <ul>
+                        <li class="fragment">Is <b>not</b> a POD </li>
+                        <li class="fragment">Ensures the ordered creation and destruction of PODs</li>
+                        <li class="fragment">Usually pods will have a fixed name</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section data-transition="fade">
+            <h3>Resources: Daemonsets</h3>
+            <div class="container">
+                <div class="col">
+                    <img src="diagrams/kubernetes.svg" alt=""></img>
+                </div>
+                <div class="col">
+                    <ul>
+                        <li class="fragment">Is <b>not</b> a POD </li>
+                        <li class="fragment">Ensures there is a POD per Node</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section data-transition="fade-in slide-out">
+            <h3>Resources: POD</h3>
+            <ul>
+                <li class="fragment">Minimum computation unit (Atom)</li>
+                <li class="fragment">Contains one or more containers</li>
+                <li class="fragment">Initialization containers can finish</li>
+                <li class="fragment">If any non-init container finished, the pod is destroyed.</li>
+                <li class="fragment">Ephemeral</li>
+                <li class="fragment">Ideally, ReadOnly</li>
+                <li class="fragment">Follow the lifecycle.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h3>POD Lifecycle</h3>
+            <ul>
+                <li class="fragment"><b>Pending</b>: Searching for resources (node, image, ...)</li>
+                <li class="fragment"><b>Running</b>: Doing its job</li>
+                <li class="fragment"><b>Succeeded</b>: Finished correctly</li>
+                <li class="fragment"><b>Failed</b>: Finished with errors</li>
+                <li class="fragment"><b>Unknown</b>: There is no communication with the node containing the POD.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Other resources</h2>
+            <ul>
+                <li class="fragment"><b>Cronjobs</b>, <b>jobs</b>: handle PODs that are expected to finish</li>
+                <li class="fragment"><b>Volumes</b>,<b>PV</b, <b>PVC</b>, ...: Handle persistence></li>
+                <li class="fragment"><b>ConfigMaps</b>,<b>Secrets</b>: Handle configuration</li>
+                <li class="fragment"><b>Role</b><b>clusterRole</b><b>RoleBinding</b><b>ClusterRoleBinding</b>: Handle RBAC</li>
+                <li class="fragment"><b>CRD</b>: Extensible endpoint to create your own resources</li>
+
+            </ul>
+        </section>
+
+
+
+
+
+
+
+        <section data-background="images/questions.jpg">
+            <div class="textdiv">
+                <h2>Questions?</h2>
+            </div>
+        </section>
+
+        <section data-background="images/thankyou.jpg">
+        </section>
+
+        <section>
+            <h2>Contact</h2>
+            <ul>
+                <li>miguelangel.garcia AT gmail DOT com</li>
+                <li><a href="https://magmax.org/uclm-mcsi-2023-2024">https://magmax.org/uclm-mcsi-2023-2024</a></li>
+                <li><a href="https://github.com/magmax/uclm-mcsi-2023-2024">https://github.com/magmax/uclm-mcsi-2023-2024</a></li>
+
+            </ul>
+        </section>
+      </div>
+    </div>
+
+
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.0.4/reveal.min.js"></script>
+    <script type="text/javascript">
+      Reveal.initialize({
+        history: true,
+        progress: true,
+        pdfSeparateFragments: false,
+        dependencies: [
+            { src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.0.4/plugin/highlight/highlight.min.js', async: true },
+        ],
+        showSlideNumber: 'print',
+      });
+    </script>
+
+  </body>
+</html>
+<!-- vim: tw=0 -->
