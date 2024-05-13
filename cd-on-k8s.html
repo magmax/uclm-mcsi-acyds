@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>UCLM: Continuous Deployment on Kubernetes.</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.0.4/reveal.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.0.4/theme/serif.css" id="theme"/>
+    <style>
+        .reveal{
+            background: no-repeat center/70% url(images/uclm-back10.png);
+        }
+        .container{
+            display: flex;
+        }
+        .col{
+            flex: 1;
+        }
+    </style>
+    <script>
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = window.location.search.match( /print-pdf/gi ) ?  'pdf.css' : 'css/print/paper.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+  </head>
+
+  <body>
+    <div class="reveal">
+      <div class="slides">
+          <section>
+            <div class="container">
+                <div class="col">
+                    <img src="images/uclm-back.png" alt="CIA triade"/>
+                    <p>Castilla-La Mancha University</p>
+                    <p>UCLM</p>
+                </div>
+                <div class="col">
+                    <h1>Continous Deployment on Kubernetes</h1>
+                    <h2>MCSI 2023-2024</h2>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>About me</h2>
+            <ul>
+                <li>Miguel Ángel García</li>
+                <li><a href="https://magmax.org">https://magmax.org</a><br/></li>
+                <li><a href="https://twitter.com/magmax9">@magmax9</a></li>
+                <li>miguelangel.garcia AT gmail DOT com</li>
+                <li>Senior Security Engineer at <a href="https://splashthat.com">Splashthat</a></li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>About this presentation</h2>
+            <ul>
+                <li>Available at https://magmax.org/uclm-mcsi-acyds-2023-2024/cd-on-k8s.html#/</li>
+                <li>Printable version: https://magmax.org/uclm-mcsi-acyds-2023-2024/cd-on-k8s.html?print-pdf#/</li>
+                <li>LICENSE: <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA</a></li>
+                <li>Pull-requests are welcome at https://github.com/magmax/uclm-mcsi-acyds-2023-2024/</li>
+            </ul>
+        </section>
+
+
+        <section>
+            <h2>What is Kubernetes (K8s) about?</h2>
+            <ul class="fragment">
+                <li><b>Deployments</b></li>
+                <li>Distributed</li>
+                <li>Availability</li>
+                <li>Repeteability</li>
+                <li>Extensibility</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>FluxCD - install</h2>
+            <p><<a href="./examples/kind.yaml" target="_blank">Use this kind.yaml file</a></p>
+            <kbd>
+                <pre>
+$ kind create cluster --config kind.yaml
+$ kubectl apply \
+  -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
+                </pre>
+            </kbd>
+        </section>
+
+        <section>
+            <h2>CD Servers</h2>
+            <img src="images/cncf-cd.png" alt="" class="fragment"/>
+        </section>
+
+        <section>
+            <h2>CD Servers</h2>
+            <ul>
+                <li><a href="https://argo-cd.readthedocs.io/en/stable/" target="_blank">ArgoCD (CNCF Graduated since 2022)</a></li>
+                <li><a href="https://fluxcd.io/" target="_blank">FluxCD (CNCF Graduated since 2022)</a></li>
+                <li><a href="https://tekton.dev/" target="_blank">Tekton</a></li>
+                <li><a href="https://www.gocd.org/index.html" target="_blank">GoCD</a></li>
+            </ul>
+        </section>
+
+
+        <section>
+            <h2>FluxCD - install</h2>
+            <kbd>
+                <pre>
+$ flux install
+$ kubectl apply -f \
+    https://github.com/fluxcd/flux2/releases/latest/download/install.yaml
+$ helm install -n flux-system flux \
+    oci://ghcr.io/fluxcd-community/charts/flux2
+                </pre>
+            </kbd>
+        </section>
+
+        <section>
+            <h2>FluxCD - check</h2>
+            <kbd>
+                <pre>
+$ flux check --pre
+                </pre>
+            </kbd>
+        </section>
+
+        <section>
+            <h2>FluxCD - bootstrap 1/2</h2>
+            <p>Remember:</p>
+            <ol>
+                <li class="fragment">Generate a ssh key pair: <tt>ssh-keygen -f key -t ecdsa</tt>
+                    <small class="fragment" style="color:#f00">(Miguel, remember to talk about ssh-agent)</small>
+                </li>
+                <li class="fragment">Upload your public key to github (on <b>settings/SSH and GPG keys</b>)</li>
+                <li class="fragment">Create a git repository (example: <b>flux-test</b>)</li>
+                <li class="fragment">Copy the repository url, and change it:</li>
+            </ol>
+            <kbd class="fragment">
+                <pre>
+ssh://git@github.com:magmax/flux-test.git -- original
+ssh://git@github.com/magmax/flux-test.git -- original
+                </pre>
+            </kbd>
+        </section>
+
+        <section>
+            <h2>FluxCD - bootstrap 2/2</h2>
+            <kbd>
+                <pre>
+$ flux check --pre
+$ flux bootstrap git  \
+  --url=ssh://git@github.com/magmax/flux-test.git \
+  --branch=main \
+  --private-key-file=key \
+  --path=clusters/my-cluster
+                </pre>
+            </kbd>
+        </section>
+
+        <section>
+            <h2>FluxCD - monitoring</h2>
+            <kbd>
+                <pre>
+kubectl get events -n flux-system -w
+                </pre>
+            </kbd>
+        </section>
+
+        <section>
+            <h2>FluxCD - example</h2>
+            <ul>
+                <li>copy <a href="examples/flux-cd-deployment.yaml" target="_blank">this file</a> to the repository</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Security problems?</h2>
+            <ul>
+                <li class="fragment">ssh keys</li>
+                <li class="fragment">External references</li>
+                <li class="fragment">monitoring</li>
+                <li class="fragment">disallow RBAC objects creation</li>
+                <li class="fragment">A pod could expose a secret</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>ArgoCD: Install Core</h2>
+            <kbd>
+                <pre>
+$ kubectl create namespace argocd
+$ kubectl apply -n argocd \
+  -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+                </pre>
+            </kbd>
+        </section>
+
+        <section>
+            <h2>ArgoCD: Port forwarding</h2>
+            <kbd>
+                <pre>
+$ kubectl port-forward svc/argocd-server -n argocd 8080:443
+                </pre>
+            </kbd>
+        </section>
+
+        <section>
+            <h2>ArgoCD: Install Cert Manager</h2>
+            <kbd>
+                <pre>
+$ kubectl apply \
+  -f https://github.com/cert-manager/cert-manager/releases/download/v1.14.5/cert-manager.yaml
+                </pre>
+            </kbd>
+        </section>
+
+        <section>
+            <h2>ArgoCD: Install UI</h2>
+            <p><<a href="./examples/argocd-ingress.yaml" target="_blank">Use this argocd-ingress.yaml file</a></p>
+
+            <kbd>
+                <pre>
+$ kubectl apply \
+  -f https://github.com/cert-manager/cert-manager/releases/download/v1.14.5/cert-manager.yaml
+                </pre>
+            </kbd>
+        </section>
+
+        <section>
+            <h2>ArgoCD: Get Admin Password</h2>
+            <kbd>
+                <pre>
+$ kubectl get secret -n argocd argocd-initial-admin-secret -o jsonpath="{.data.password}" \
+  | base64 -d -
+                </pre>
+            </kbd>
+        </section>
+
+        <section>
+            <h2>ArgoCD: Creating the first application</h2>
+            <ol>
+                <li>Create a new application</li>
+                <li>URL: <tt>https://github.com/argoproj/argocd-example-apps.git</tt></li>
+                <li>Force namespace creation:
+                    <kbd>
+                        <pre>
+syncPolicy:
+  syncOptions:
+    - CreateNamespace=true
+                        </pre>
+                    </kbd>
+                </li>
+            </ol>
+        </section>
+
+        <section>
+            <h2>ArgoCD Image Upgrader</h2>
+            <ul>
+                <li>Allows Continuous Deployment over Continuous Delivery</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Security problems?</h2>
+            <ul>
+                <li class="fragment">ssh keys</li>
+                <li class="fragment">External references</li>
+                <li class="fragment">monitoring</li>
+                <li class="fragment">disallow RBAC objects creation</li>
+                <li class="fragment">A pod could expose a secret</li>
+                <li class="fragment">Argocd Users and API</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Solutions</h2>
+            <ul>
+                <li class="fragment">RBAC permissions</li>
+                <li class="fragment">Policies enforcements</li>
+                <li class="fragment">Service Mess vs Service Mesh</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Policies enforcements: Kyverno</h2>
+            <ul>
+                <li>Add kyverno repository
+                    <kbd><pre>$ helm repo add kyverno https://kyverno.github.io/kyverno/
+$ helm repo update </pre></kbd>
+                </li>
+                <li>Install:
+                    <kbd><pre>$ helm install kyverno kyverno/kyverno -n kyverno --create-namespace </pre></kbd>
+                </li>
+                <li>Install policies:
+                    <kbd><pre>$ helm install kyverno-policies kyverno/kyverno-policies -n kyverno</pre></kbd>
+                </li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Policies enforcements: Kyverno</h2>
+            <ul>
+                <li>Plan B: install via yaml:
+                    <kbd><pre>$ kubectl create -f \
+  https://github.com/kyverno/kyverno/releases/download/v1.11.1/install.yaml</pre></kbd>
+                </li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Kyverno policies</h2>
+            <ul>
+                <li class="fragment"><a href="https://kyverno.io/policies/" target="_blank">Policies list</a></li>
+                <li class="fragment"><a href="https://github.com/kyverno/policies" target="_blank">Policies repository</a></li>
+                <li class="fragment">Check: <kbd><pre>$ kubectl get PolicyReport -A -o wide </pre></kbd></li>
+                <li class="fragment">Time to play with policies!</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Service Mesh: Linkerd</h2>
+            <ul>
+                <li>Easy to install and use</li>
+                <li>powerfull</li>
+            </ul>
+            <kbd><pre>
+$ linkerd check --pre
+$ linkerd install --crds | kubectl apply -f -
+$ linkerd install  | kubectl apply -f -
+$ linkerd viz dashboard
+$ linkerd check
+            </pre></kbd>
+        </section>
+
+        <section>
+            <h2>Linkerd dashboard</h2>
+            <kbd><pre>
+$ linkerd viz install | kubectl apply -f -
+$ linkerd check
+$ linkerd viz dashboard &
+            </pre></kbd>
+        </section>
+
+        <section>
+            <h2>Linkerd example</h2>
+            <p>Install example app, open it and inject linkerd to it!</p>
+            <kbd><pre>
+$ curl --proto '=https' --tlsv1.2 -sSfL https://run.linkerd.io/emojivoto.yml \
+  | kubectl apply -f -
+$ kubectl -n emojivoto port-forward svc/web-svc 8080:80
+$ kubectl get -n emojivoto deploy -o yaml \
+  | linkerd inject - \
+  | kubectl apply -f -
+            </pre></kbd>
+        </section>
+        <section>
+            <h2>Flagger</h2>
+            <img src="images/flagger.png" alt=""/>
+        </section>
+
+        <section>
+            <h2>Flagger</h2>
+            <p>Install:</p>
+            <kbd><pre>
+$ linkerd smi install | kubectl apply -f -
+$ helm repo add flagger https://flagger.app
+$ kubectl apply -f https://raw.githubusercontent.com/fluxcd/flagger/main/artifacts/flagger/crd.yaml
+$ helm upgrade -i flagger flagger/flagger \
+  --namespace=linkerd \
+  --set crd.create=false \
+  --set meshProvider=linkerd \
+  --set metricsServer=http://linkerd-prometheus:9090
+            </pre></kbd>
+        </section>
+
+        <section>
+            <h2>Flagger Example</h2>
+            <p><small>Don't tell audience: everything is <a href="https://docs.flagger.app/tutorials/linkerd-progressive-delivery" target="_blank">Documented here</a></small></p>
+        </section>
+
+
+
+
+        <section data-background="images/questions.jpg">
+            <div class="textdiv">
+                <h2>Questions?</h2>
+            </div>
+        </section>
+
+        <section data-background="images/thankyou.jpg">
+        </section>
+
+        <section>
+            <h2>Contact</h2>
+            <ul>
+                <li>miguelangel.garcia AT gmail DOT com</li>
+                <li><a href="https://magmax.org/uclm-mcsi-2023-2024">https://magmax.org/uclm-mcsi-2023-2024</a></li>
+                <li><a href="https://github.com/magmax/uclm-mcsi-2023-2024">https://github.com/magmax/uclm-mcsi-2023-2024</a></li>
+
+            </ul>
+        </section>
+      </div>
+    </div>
+
+
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.0.4/reveal.min.js"></script>
+    <script type="text/javascript">
+      Reveal.initialize({
+        history: true,
+        progress: true,
+        pdfSeparateFragments: false,
+        dependencies: [
+            { src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.0.4/plugin/highlight/highlight.min.js', async: true },
+        ],
+        showSlideNumber: 'print',
+      });
+    </script>
+
+  </body>
+</html>
+<!-- vim: tw=0 -->
