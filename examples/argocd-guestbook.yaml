@@ -3,7 +3,7 @@ kind: Application
 metadata:
   name: guestbook
   namespace: argocd
-  annotation:
+  annotations:
     author: miguel angel garcia
 spec:
   project: default
