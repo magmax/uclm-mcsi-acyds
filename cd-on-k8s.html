@@ -79,7 +79,7 @@
 
         <section>
             <h2>CD Servers</h2>
-            <img src="images/cncf-cd.png" alt="" class="fragment"/>
+            <img src="images/cncf-cd.png" alt="" style="height:500px" class="fragment"/>
         </section>
 
         <section>
@@ -158,13 +158,6 @@ kubectl get events -n flux-system -w
         </section>
 
         <section>
-            <h2>FluxCD - example</h2>
-            <ul>
-                <li>copy <a href="examples/flux-cd-deployment.yaml" target="_blank">this file</a> to the repository</li>
-            </ul>
-        </section>
-
-        <section>
             <h2>Security problems?</h2>
             <ul>
                 <li class="fragment">ssh keys</li>
@@ -196,28 +189,6 @@ $ kubectl port-forward svc/argocd-server -n argocd 8080:443
         </section>
 
         <section>
-            <h2>ArgoCD: Install Cert Manager</h2>
-            <kbd>
-                <pre>
-$ kubectl apply \
-  -f https://github.com/cert-manager/cert-manager/releases/download/v1.14.5/cert-manager.yaml
-                </pre>
-            </kbd>
-        </section>
-
-        <section>
-            <h2>ArgoCD: Install UI</h2>
-            <p><<a href="./examples/argocd-ingress.yaml" target="_blank">Use this argocd-ingress.yaml file</a></p>
-
-            <kbd>
-                <pre>
-$ kubectl apply \
-  -f https://github.com/cert-manager/cert-manager/releases/download/v1.14.5/cert-manager.yaml
-                </pre>
-            </kbd>
-        </section>
-
-        <section>
             <h2>ArgoCD: Get Admin Password</h2>
             <kbd>
                 <pre>
@@ -241,6 +212,7 @@ syncPolicy:
                         </pre>
                     </kbd>
                 </li>
+                <li class="fragment">Or just run <tt>kubectl apply -f examples/argocd-guestbook.yaml</tt></li>
             </ol>
         </section>
 
@@ -318,7 +290,6 @@ $ helm repo update </pre></kbd>
 $ linkerd check --pre
 $ linkerd install --crds | kubectl apply -f -
 $ linkerd install  | kubectl apply -f -
-$ linkerd viz dashboard
 $ linkerd check
             </pre></kbd>
         </section>
@@ -327,8 +298,8 @@ $ linkerd check
             <h2>Linkerd dashboard</h2>
             <kbd><pre>
 $ linkerd viz install | kubectl apply -f -
-$ linkerd check
-$ linkerd viz dashboard &
+$ linkerd viz check
+$ linkerd viz dashboard
             </pre></kbd>
         </section>
 
