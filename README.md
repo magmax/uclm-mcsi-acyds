@@ -9,4 +9,4 @@ This repository contains slides for the MCSI AdCyDS course, chapters 8 and 9.
 More resources to learn Kubernetes:
 - [LinuxFoundationX: Introduction to Kubernetes](https://www.edx.org/learn/kubernetes/the-linux-foundation-introduction-to-kubernetes#!)
 
-It will be served at https://magmax.org/uclm-mcsi-acyds-2023-2024/
+It will be served at https://magmax.org/uclm-mcsi-acyds/
